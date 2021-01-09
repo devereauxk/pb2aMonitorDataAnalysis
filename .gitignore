@@ -1,0 +1,11 @@
+__pycache__/
+databases/
+figures/
+scripts/
+simons_array_offline_software/
+simons_array_python/
+
+*.pdf
+*.db
+*.ppt
+*.pptx

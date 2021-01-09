@@ -1,0 +1,10 @@
+what to look at in tostada:
+
+data wrt time (and over discrete periods)
+stds vars wrt time (and over discrete periods)
+
+focal plane. specifically,
+stability of focal plane temp over observations
+
+help with chile work?
+50K shell

@@ -1,0 +1,26 @@
+urap
+
+what should i be doing
+maybe help him with simons array data analysis
+
+generic questions
+how does the read out info relate to the data files ive found
+polarization
+	how does b-mode and e-mode poalrization manifest in data
+	is the incident light all types of polarization
+	how does the change in polarization from the CHWP decrease noise 
+
+opamp - feedback read feedback voltage
+
+files on real database, not this database.
+
+make summary send to john tyler, slides with histograms
+people would have suggestions, on which items to analyse
+
+EB comes from patterns of QU polarization (QU across the field of view (whole sky)
+polarization field is tensor field 180 degree rotaion symmmetry, 1/2 spin particles have 720 degree symmetry
+vector has 360 rotation symmetry
+every point of the sky has a tensor accossiated with it
+tensor version of divergence, curl -> div component is E-mode and B-mode is curl compontnet
+qu meansurements define the tensor at a point
+gravity waves create e-mode and b-mode, only gravity creates b-modes

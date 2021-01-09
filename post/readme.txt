@@ -1,0 +1,2 @@
+scripts and simons_array_python taken from the simons_array_offline_software
+package
