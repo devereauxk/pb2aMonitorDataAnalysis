@@ -1,10 +1,14 @@
-import datetime as dt
 import sqlite3
-from astropy.time import Time
+import astropy.time as Time
+import datetime as dt
 
 from monitor_sql import *
+from time_frame import *
 
 class run:
+    """
+        destructively modifies a database_table to include only entries with a specific runid. this is done by calling the mod_database method
+    """
 
     def __init__(self, runid, file):
         """
@@ -27,7 +31,7 @@ class run:
 
                 if i != len(lines) - 1:
                     next_entry = lines[i+1].split(",")
-                    while int(next_entry[0]) == runid:
+                    while int(next_entry[0]) == runid and i < len(lines) - 2:
                         i += 1
                         entry = lines[i].split(",")
                         next_entry = lines[i+1].split(",")
@@ -59,7 +63,7 @@ class run:
 
         db.file_cursor.execute("DROP TABLE temp")
         db.file_cursor.execute("DROP TABLE {0}".format(db.name))
-        db.name = new_name    
+        db.name = new_name
 
 
 
@@ -85,41 +89,3 @@ for runid in runids:
     if len(temp_run.subid_times) >= 10:
         good_runs.append(temp_run)
 """
-
-""" MAIN """
-
-file = open("runid_time_table.txt", "r")
-path = "../databases/pb2a-20200818"  # 301, 818
-monitor = database_table(path, "pb2a_monitor.db", "pb2a_monitor")
-
-temp = data_set(monitor, "run_id", "run_subid")
-long_run_ids = []
-for i in range(len(temp.x_data)):
-    counter = 1
-    this = temp.x_data[i]
-    for j in range(len(temp.x_data)):
-        if temp.x_data[j] == this:
-            counter += 1
-        if counter >= 7:
-            long_run_ids.append(this)
-            break
-temp = []
-for i in long_run_ids:
-    if i not in temp:
-        temp.append(i)
-long_run_ids = temp
-print(long_run_ids)
-
-runs = []
-for id in long_run_ids:
-    file = open("runid_time_table.txt", "r")
-    runs.append(run(id, file))
-
-monitor_copy = monitor.copy()
-for run in runs:
-    run.mod_database(monitor_copy) # changes monitor copy
-    print(run.runid)
-    temp_ds = data_set(monitor_copy, "time", "slowdaq_focal_plane_3_mean", ycol_err="slowdaq_focal_plane_3_std")
-    temp_ds.make_plot(errorbars=True, x_time_formated=True)
-    monitor_copy.close()
-    monitor_copy = monitor.copy()

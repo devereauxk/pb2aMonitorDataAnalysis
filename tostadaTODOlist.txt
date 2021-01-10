@@ -8,3 +8,8 @@ stability of focal plane temp over observations
 
 help with chile work?
 50K shell
+
+questions:
+what happens in between the runs and sub_runs
+	(should I only consider data over single runs,
+		or is considering data over multiple runs ok?)

@@ -9,3 +9,4 @@ simons_array_python/
 *.db
 *.ppt
 *.pptx
+.gitignore

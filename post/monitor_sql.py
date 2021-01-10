@@ -61,6 +61,12 @@ class database_table():
     def close(self):
         self.file_cursor.close()
 
+    def size(self):
+        count = 0
+        for i in self.gen_table():
+            count += 1
+        return count
+
 
 # convinient way to store two sets of data (an x and an y set) joined on the same run_id and runsubid, \
 # with the option of storing their error sets too
