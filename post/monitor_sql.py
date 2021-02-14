@@ -18,55 +18,7 @@ from os.path import isfile, join
 from astropy.time import Time
 from datetime import datetime
 
-class database_table():
-    # path to the database file's folder (without the name of the db file), file name and table name
-    def __init__(self, p, fn, tn):
-        self.path = p
-        self.file_cursor = sqlite3.connect(p + "/" + fn)
-        self.file_name = fn
-        self.name = tn
-
-    def gen_table_info(self):
-        yield from self.file_cursor.execute("PRAGMA table_info({})".format(self.name))
-
-    def gen_table(self):
-        yield from self.file_cursor.execute("SELECT * FROM {}".format(self.name))
-
-    def print_table_info(self):
-        for i in self.gen_table_info():
-            print(i)
-
-    def print_file_info(self):
-        for i in self.file_cursor.execute("SELECT name FROM sqlite_master WHERE type='table';"):
-            print(i)
-
-    def print_head(self, limit):
-        for i in self.file_cursor.execute("SELECT * FROM {} LIMIT {};".format(self.name, limit)):
-            print(i)
-
-    def get_column_index(self, col_name):
-        for i in self.gen_table_info():
-            if i[1] == col_name:
-                return i[0]
-        return None
-
-    def copy(self):
-        new_name = self.file_name[:len(self.file_name) - 3] + "(1).db"
-        full_path = self.path + "/" + self.file_name
-        new_path = self.path + "/" + new_name
-        copyfile(full_path, new_path)
-        new_object = database_table(self.path, new_name, self.name)
-        return new_object
-
-    def close(self):
-        self.file_cursor.close()
-
-    def size(self):
-        count = 0
-        for i in self.gen_table():
-            count += 1
-        return count
-
+from database_table import *
 
 # convinient way to store two sets of data (an x and an y set) joined on the same run_id and runsubid, \
 # with the option of storing their error sets too
