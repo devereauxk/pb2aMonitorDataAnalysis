@@ -14,8 +14,3 @@ what happens in between the runs and sub_runs
 	(should I only consider data over single runs,
 		or is considering data over multiple runs ok?)
 
-meeting:
-recently got a new laptop, so I spent some time finding out how to ssh into tostada with it. Eventually,
-I figured out how to use by old machine to add my new public key to the server's authorized keys, and that worked
-Yeah, so it was fun learning how all that works
-
