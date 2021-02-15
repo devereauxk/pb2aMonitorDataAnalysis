@@ -8,6 +8,7 @@ from run import *
 class time_frame:
     """
         destructively modifies a database_table to include only entries with a runid within a specific interval. this is done by calling the mod_database method
+        ADDS a 'time' column to this table.
     """
 
     def __init__(self, start, end, file):

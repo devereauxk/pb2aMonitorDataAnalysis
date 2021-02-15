@@ -50,7 +50,7 @@ class database_table():
         return None
 
     def copy(self):
-        new_dir = self.dir[:len(self.dir) - 3] + "(1).db"
+        new_dir = self.dir[:len(self.dir) - 3] + "_temp.db"
         copyfile(dir, new_dir)
         new_object = database_table(new_dir, self.name)
         return new_object
