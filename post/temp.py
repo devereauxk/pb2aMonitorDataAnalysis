@@ -2,13 +2,17 @@ from monitor_sql import *
 from database_file import *
 from database_table import *
 
-path_current = "../databases/current"
+path = "../databases/current/"
 
-runid = database_file(path_current + "pb2a_runid.db")
-runid.print_table_infos()
+from os import walk
+_, _, filenames = next(walk(path))
 
-runid_g3 = database_file(path_current + "pb2a_runid_g3.db")
-runid_g3.print_table_infos()
+for name in filenames:
+    temp = database_file(path+name)
+    temp.print_table_infos()
 
-slowdaq = database_file(path_current + "pb2a_slowdaq.db")
-slowdaq.print_table_infos()
+monitor = database_file(path+"pb2a_runid.db")
+runids = []
+for line in monitor.database_tables[0].gen_table():
+    runids.append(line[0])
+print("max runid: " + str(max(runids)))

@@ -30,11 +30,10 @@ class database_file():
 
         table_names = []
         for i in self.file_cursor.execute("SELECT name FROM sqlite_master WHERE type='table';"):
-            table_names.append(i)
-        print(table_names)
+            table_names.append(i[0])
 
         for name in table_names:
-            database_tables.append(database_table(self.dir, name))
+            self.database_tables.append(database_table(self.dir, name))
 
     def print_table_names(self):
         names = []
@@ -43,6 +42,7 @@ class database_file():
         print(names)
 
     def print_table_infos(self):
+        print("\nFile dir: " + self.dir)
         for table in self.database_tables:
             print("\n" + table.name)
             table.print_table_info()
