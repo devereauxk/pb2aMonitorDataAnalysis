@@ -2,9 +2,10 @@ from monitor_sql import *
 from database_file import *
 from database_table import *
 
+from os import walk
 
 def print_all_tables_in_folder(path):
-    from os import walk
+
     _, _, filenames = next(walk(path))
 
     for name in filenames:
@@ -24,6 +25,8 @@ def make_new_db_file_set_runs(dt, start, end):
     """
     db = dt.copy()
 
+    # finish this
+
     # the following is destructive on 'db'
     db.file_cursor.execute("DELETE FROM {0} WHERE {0}.runid != {1}".format(dt.name, runid))
     db.name = new_name
@@ -37,7 +40,7 @@ def add_time_to_db_table(dt):
 
 def __main__():
 
-    path = "../databases/pb2a-20210128/"
+    path = "../databases/pb2a-20210205/"
 
     print_all_tables_in_folder(path)
 
