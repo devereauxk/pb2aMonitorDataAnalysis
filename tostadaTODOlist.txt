@@ -1,3 +1,19 @@
+=================== current
+
+some monitor data nonexistent for run 22300417
+no focal plane data for 223***** runds
+
+
+limit slew 4*/s
+
+see if delta T dibbles off for small <0.6 d/s az speed
+
+.sch (schedule) files contain telescope movement commands
+
+
+===================
+
+
 what to look at in tostada:
 
 data wrt time (and over discrete periods)
@@ -13,4 +29,6 @@ questions:
 what happens in between the runs and sub_runs
 	(should I only consider data over single runs,
 		or is considering data over multiple runs ok?)
+
+
 

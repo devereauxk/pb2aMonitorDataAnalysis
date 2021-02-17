@@ -24,6 +24,8 @@ class database_table():
         self.dir = dir
         self.file_cursor = sqlite3.connect(dir)
         self.name = tn
+        split_dir = dir.split('/')
+        self.file_name = split_dir[len(split_dir) - 1]
 
     def gen_table_info(self):
         yield from self.file_cursor.execute("PRAGMA table_info({})".format(self.name))
@@ -49,9 +51,13 @@ class database_table():
                 return i[0]
         return None
 
+    def gen_column_names(self):
+        for row in self.gen_table_info():
+            yield row[1]
+
     def copy(self):
         new_dir = self.dir[:len(self.dir) - 3] + "_temp.db"
-        copyfile(dir, new_dir)
+        copyfile(self.dir, new_dir)
         new_object = database_table(new_dir, self.name)
         return new_object
 
@@ -63,3 +69,9 @@ class database_table():
         for i in self.gen_table():
             count += 1
         return count
+
+    def commit(self):
+        self.file_cursor.commit()
+
+    def print(self):
+        print("database table info: | dir: " + self.dir + " | name: " + self.name + " | file_name: " + self.file_name)

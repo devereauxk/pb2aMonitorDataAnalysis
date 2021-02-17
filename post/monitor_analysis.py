@@ -7,7 +7,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import math
 
-import monitor_sql as msql
+import data_set as msql
 
 import sqlite3
 from os import listdir
