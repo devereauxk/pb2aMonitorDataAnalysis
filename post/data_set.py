@@ -278,11 +278,13 @@ class data_set():
         n_y_d_e = []
         n_r = []
         for i in range(len(self.x_data)):
-            if self.x_data_err[i] <= error or self.y_data_err[i] <= error:
+            if (self.x_data_err is not None and self.x_data_err[i] <= error) or (self.y_data_err is not None and self.y_data_err[i] <= error):
                 n_x_d.append(self.x_data[i])
                 n_y_d.append(self.y_data[i])
-                n_x_d_e.append(self.x_data_err[i])
-                n_y_d_e.append(self.y_data_err[i])
+                if self.x_data_err is not None:
+                    n_x_d_e.append(self.x_data_err[i])
+                if self.y_data_err is not None:
+                    n_y_d_e.append(self.y_data_err[i])
                 n_r.append(self.runid[i])
         self.x_data = n_x_d
         self.y_data = n_y_d

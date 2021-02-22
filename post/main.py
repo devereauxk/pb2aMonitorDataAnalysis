@@ -56,15 +56,29 @@ def __main__():
     one_to_twelve = Time(datetime(2020, 1, 30, 16, 21, 40, 910587)).mjd
     partitions = [20000000, 20100000, 21200000, 22300000, 30000000]
 
-    parts = [i for i in range(22300403, 22400416)]
+
+
+    """ gen plots for postretrofit including preretrofit data (in POSTRETROCOMPARE folder) """
+    columns = [ 'slowdaq_focal_plane_3_mean',
+
+                'slowdaq_250mK_far_mean', 'slowdaq_4K_blackbody_mean', 'slowdaq_50K_Bottom_mean', 'slowdaq_50K_Head_mean',
+
+                'slowdaq_SC_Fridge_Mainplate_mean', 'slowdaq_SC_Fridge_Ultrahead_mean', 'slowdaq_Backend_4K_Head_mean', 'slowdaq_Backend_4K_Heat_Link_mean']
+
+    for col in columns:
+        temp = data_set(stat, "az_speed", col,
+                y_db_table=monitor,
+                ycol_err= col[:len(col)-4] + "std")
+        err_std = np.std(temp.y_data_err)                   # some bars really big, clutters plot, this removes those bars
+        print(err_std)
+        temp.discard_large_error_points(1*err_std)
+        temp.make_plot(errorbars=True, runid_partitions=partitions,
+                legend=True)
+
+
+    """ gen plots for postretrofit (in POSTRETROFIT folder)
+    parts = [i for i in range(22300403, 22300416)]
     monitor_after_retrofit = make_new_db_file_set_runids(monitor, parts)
-
-    stat = make_new_db_file_set_runids(stat, parts)
-    temp = data_set(stat, "az", "el")
-    print(temp.runid)
-    print(temp.y_data)
-
-    exit()
 
     columns = ['slowdaq_bottom_wafer_lc_board_mean', 'slowdaq_250mK_bottom_left_mean',
                 'slowdaq_1K_stripline_heatsink_mean', 'slowdaq_4K_ring_mean', 'slowdaq_350mK_ring_mean',
@@ -75,12 +89,12 @@ def __main__():
                 'slowdaq_SC_Fridge_Mainplate_mean', 'slowdaq_SC_Fridge_Ultrahead_mean', 'slowdaq_Backend_4K_Head_mean', 'slowdaq_Backend_4K_Heat_Link_mean']
 
     for col in columns:
-        temp = data_set(stat, "az_speed", col,
+        temp = data_set(stat, "scan_freq", col,
                 y_db_table=monitor_after_retrofit,
                 ycol_err= col[:len(col)-4] + "std")
         temp.make_plot(errorbars=True, runid_partitions=parts,
                 legend=True)
-
+    """
 
     """ single plot lookup
     azs_focal_mean = data_set(stat, "scan_speed",
@@ -92,7 +106,7 @@ def __main__():
                 legend=False)
     """
 
-    """ test is monitor contains data
+    """ test if monitor contains data
     fp = monitor_after_retrofit.get_column_index('slowdaq_lyot_stop_blackbody_mean')
     for row in monitor_after_retrofit.gen_table():
         print(row[fp])

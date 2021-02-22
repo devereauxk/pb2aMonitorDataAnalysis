@@ -1,7 +1,21 @@
 =================== current
 
-some monitor data nonexistent for run 22300417
-no focal plane data for 223***** runds
+to test:
+run previous tests but for x_axis=az and az_acc and az_amp? - DONE
+	no x_axis=az significant findings
+	looks like two sets of correlations emerging
+		1) two horizontal lines
+		2) clusters and logistics
+run previous tests but for run_ids before retrofit (and compare)
+THATS ENOUGH! SEND THIS TO TYLOR
+continue: do the above but for MOST RECENT data (the above is just with John's initial vibration tests, remember)
+revist all observations from first two studies, see if new data provides insight
+check is heating persists at 50K shell, if persists, keep going outwards shell by shell until source found (maybe weather (last shell)?)
+
+-4k backend data reads -1 for post retrofit
+-az_sun is prop to -time
+-some monitor data nonexistent for run 22300417
+-no focal plane data for 223***** runds
 
 
 limit slew 4*/s
@@ -9,6 +23,26 @@ limit slew 4*/s
 see if delta T dibbles off for small <0.6 d/s az speed
 
 .sch (schedule) files contain telescope movement commands
+locate the .sch files - they are in many usr's home dirs
+
+locate the delta T data
+
+get on mailing list
+find out how to speak/sign up for presentations in meeting
+
+instrument stability has always been a problem
+
+.gz	gzip compressing, use gzip -d in ubuntu to decompress
+.tar 	tar ubuntu command
+.dat
+.db
+.g3
+
+what are the ...
+	.dat.gz files in gcp
+	.g3 files in g3 compressed
+	.tar.gz files in tuning logs
+	.gz files in slowdaq!!!
 
 
 ===================
