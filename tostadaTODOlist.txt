@@ -7,6 +7,8 @@ run previous tests but for x_axis=az and az_acc and az_amp? - DONE
 		1) two horizontal lines
 		2) clusters and logistics
 run previous tests but for run_ids before retrofit (and compare)
+	nothing interesting for az, start_mjd
+	scan_speed looks the same as az_speed
 THATS ENOUGH! SEND THIS TO TYLOR
 continue: do the above but for MOST RECENT data (the above is just with John's initial vibration tests, remember)
 revist all observations from first two studies, see if new data provides insight
@@ -16,6 +18,7 @@ check is heating persists at 50K shell, if persists, keep going outwards shell b
 -az_sun is prop to -time
 -some monitor data nonexistent for run 22300417
 -no focal plane data for 223***** runds
+-az_amp related to el somehow
 
 
 limit slew 4*/s

@@ -5,7 +5,7 @@ pb2a_scan_stat
 (0, 'run_id', 'INTEGER', 0, None, 1)
 (1, 'run_subid', 'INTEGER', 0, None, 2)
 (2, 'az', 'REAL', 0, None, 0)
-(3, 'az_acc', 'REAL', 0, None, 0)             # run main but for this too
+(3, 'az_acc', 'REAL', 0, None, 0)
 (4, 'az_amp', 'REAL', 0, None, 0)
 (5, 'az_moon', 'REAL', 0, None, 0)
 (6, 'az_speed', 'REAL', 0, None, 0)
