@@ -59,11 +59,19 @@ def __main__():
 
 
     """ gen plots for postretrofit including preretrofit data (in POSTRETROCOMPARE folder)
-    columns = [ 'slowdaq_focal_plane_3_mean',
+    columns = [ 'slowdaq_250mK_far_mean', 'slowdaq_250mK_bottom_left_mean',
 
-                'slowdaq_250mK_far_mean', 'slowdaq_4K_blackbody_mean', 'slowdaq_50K_Bottom_mean', 'slowdaq_50K_Head_mean',
+                'slowdaq_350mK_stripline_heatsink_mean', 'slowdaq_350mK_ring_mean',
 
-                'slowdaq_SC_Fridge_Mainplate_mean', 'slowdaq_SC_Fridge_Ultrahead_mean', 'slowdaq_Backend_4K_Head_mean', 'slowdaq_Backend_4K_Heat_Link_mean']
+                'slowdaq_1K_stripline_heatsink_mean',
+
+                'slowdaq_2K_ring_mean',
+
+                'slowdaq_4K_blackbody_mean', 'slowdaq_Backend_4K_Head_mean', 'slowdaq_Backend_4K_Heat_Link_mean', 'slowdaq_4K_ring_mean'
+
+                'slowdaq_50K_Bottom_mean', 'slowdaq_50K_Head_mean',
+
+                'slowdaq_SC_Fridge_Mainplate_mean', 'slowdaq_SC_Fridge_Ultrahead_mean',  'slowdaq_SQUID_card_mean', 'slowdaq_bottom_wafer_lc_board_mean']
 
     for col in columns:
         temp = data_set(stat, "scan_speed", col,
@@ -77,7 +85,31 @@ def __main__():
     """
 
 
-    """ gen plots for postretrofit (in POSTRETROFIT folder) """
+    """ temp """
+    columns = [ 'slowdaq_250mK_far_mean', 'slowdaq_250mK_bottom_left_mean',
+
+                'slowdaq_350mK_stripline_heatsink_mean', 'slowdaq_350mK_ring_mean',
+
+                'slowdaq_1K_stripline_heatsink_mean',
+
+                'slowdaq_2K_ring_mean',
+
+                'slowdaq_4K_blackbody_mean', 'slowdaq_Backend_4K_Head_mean', 'slowdaq_Backend_4K_Heat_Link_mean', 'slowdaq_4K_ring_mean',
+
+                'slowdaq_50K_Bottom_mean', 'slowdaq_50K_Head_mean',
+
+                'slowdaq_SC_Fridge_Mainplate_mean', 'slowdaq_SC_Fridge_Ultrahead_mean',  'slowdaq_SQUID_card_mean', 'slowdaq_bottom_wafer_lc_board_mean']
+
+    for col in columns:
+        temp = data_set(stat, "scan_speed", col,
+                y_db_table=monitor,
+                ycol_err= col[:len(col)-4] + "std")
+        err_std = np.std(temp.y_data_err)                   # some bars really big, clutters plot, this removes those bars
+        temp.discard_large_error_points(1*err_std)
+        temp.print_y_stats(partitions=partitions)
+
+
+    """ gen plots for postretrofit (in POSTRETROFIT folder)
     parts = [i for i in range(22300403, 22300416)]
     monitor_after_retrofit = make_new_db_file_set_runids(monitor, parts)
 
@@ -94,18 +126,6 @@ def __main__():
                 y_db_table=monitor_after_retrofit,
                 ycol_err= col[:len(col)-4] + "std")
         temp.make_plot(errorbars=True, runid_partitions=parts,
-                legend=True)
-
-
-    """ temp
-    parts = [i for i in range(22300403, 22300416)]
-    monitor_after_retrofit = make_new_db_file_set_runids(stat, parts)
-
-    columns = ['az']
-
-    for col in columns:
-        temp = data_set(monitor_after_retrofit, "az_speed", col)
-        temp.make_plot(errorbars=False, runid_partitions=parts,
                 legend=True)
     """
 

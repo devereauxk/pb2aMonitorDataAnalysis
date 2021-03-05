@@ -1,15 +1,17 @@
 =================== current
 
 to test:
-run previous tests but for x_axis=az and az_acc and az_amp? - DONE
-	no x_axis=az significant findings
-	looks like two sets of correlations emerging
-		1) two horizontal lines
-		2) clusters and logistics
-run previous tests but for run_ids before retrofit (and compare)
-	nothing interesting for az, start_mjd
-	scan_speed looks the same as az_speed
-THATS ENOUGH! SEND THIS TO TYLOR
+
+"
+I've been reasoning that the components which experience similar heating as the focal plane are more likely to be related to it - narrowing the search for the vibrations/heat source.
+
+From here, I plan to consider all the post retrofit data in the dbs and incorporate the actual focal plane data. I'm also working on some other slides showing general differences between pre and post-retrofit component temperatures. I should be done with those soon.
+"
+
+quick summary of changes in componenet temperatures
+
+
+
 continue: do the above but for MOST RECENT data (the above is just with John's initial vibration tests, remember)
 revist all observations from first two studies, see if new data provides insight
 check is heating persists at 50K shell, if persists, keep going outwards shell by shell until source found (maybe weather (last shell)?)

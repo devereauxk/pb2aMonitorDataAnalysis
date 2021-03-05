@@ -291,3 +291,28 @@ class data_set():
         self.x_data_err = n_x_d_e
         self.y_data_err = n_y_d_e
         self.runid = n_r
+
+    def print_y_stats(self, partitions=False):
+        """
+            computes and prints basic stats for the y data for each runid partition
+            can be easily modified for 2d stats
+        """
+        def f_format(f):
+            " input: float of int"
+            return format(f, '.3f')
+
+        if not partitions:
+            partitions = [self.runids[0], self.runids[len(self.rundis)-1]]
+        print("\n"+self.y_col)
+        for i in range(len(partitions)-1):
+            part_start = partitions[i]
+            part_end = partitions[i+1]
+            parts = self.get_partition(part_start, part_end)
+            if parts is None:
+                continue
+            [_, part_y_data, _, _] = parts
+            print("\t"+str(part_start)+" - "+str(part_end))
+            print("\t\tmean\tmedian\tstd\tmin\tmax\t")
+            print("\t\t" +  f_format(np.mean(part_y_data)) + "\t" + f_format(np.median(part_y_data))
+                        + "\t" + f_format(np.std(part_y_data)) + "\t" + f_format(np.min(part_y_data))
+                        + "\t" + f_format(np.max(part_y_data)))
