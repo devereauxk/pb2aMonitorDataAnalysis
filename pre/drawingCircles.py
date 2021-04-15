@@ -3,6 +3,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
+import os
+
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
+if tf.test.gpu_device_name():
+    print('GPU found')
+else:
+    print("No GPU found")
+
 # Create noisy data
 t_data = np.linspace(0, 2*np.pi, num=1000)
 x_data = np.cos(t_data) + 0.1*np.random.normal(size=1000)
@@ -26,7 +35,8 @@ classification_threshold = None
 
 model = tf.keras.Sequential()
 model.add(tf.keras.layers.Flatten(input_shape=(1,)))
-model.add(tf.keras.layers.Dense(units = 128, activation = 'relu'))
+for i in range(100):
+    model.add(tf.keras.layers.Dense(units = 128, activation = 'relu'))
 model.add(tf.keras.layers.Dense(units = 128, activation = 'relu'))
 model.add(tf.keras.layers.Dense(units = 2, activation = 'linear'))
 

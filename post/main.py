@@ -42,15 +42,15 @@ def make_new_db_file_set_runids(db_in, runids):
 
     return db
 
-""" IF YOU WISH TO PLOT SOMETHING WRT, JUST USE X_DATA_TABLE = PB2A_RUNID.DB """
+""" IF YOU WISH TO PLOT SOMETHING WRT TIME, JUST USE X_DATA_TABLE = PB2A_RUNID.DB """
 
 
 def __main__():
 
     path = "../databases/"
     run_id = database_table(path+"pb2a_runid.db", "pb2a_runid")
-    monitor = database_table(path+"pb2a_monitor.db", "pb2a_monitor")
-    stat = database_table(path+"pb2a-20210205/pb2a_data_quality.db", "pb2a_scan_stat")
+    monitor = database_table(path+"pb2a_monitor_ktc.db", "pb2a_monitor")
+    stat = database_table(path+"data_quality_output_pb2a_v3.db", "pb2a_scan_stat")
     linear = lambda x, m, b: m * x + b
     zero_to_one = Time(datetime(2019, 3, 8, 15, 25, 7, 706722)).mjd
     one_to_twelve = Time(datetime(2020, 1, 30, 16, 21, 40, 910587)).mjd
@@ -59,34 +59,30 @@ def __main__():
 
 
     """ gen plots for postretrofit including preretrofit data (in POSTRETROCOMPARE folder)
-    columns = [ 'slowdaq_250mK_far_mean', 'slowdaq_250mK_bottom_left_mean',
+    columns = [ # Backend
+                'slowdaq_250mK_far_mean',
 
-                'slowdaq_350mK_stripline_heatsink_mean', 'slowdaq_350mK_ring_mean',
-
-                'slowdaq_1K_stripline_heatsink_mean',
-
-                'slowdaq_2K_ring_mean',
-
-                'slowdaq_4K_blackbody_mean', 'slowdaq_Backend_4K_Head_mean', 'slowdaq_Backend_4K_Heat_Link_mean', 'slowdaq_4K_ring_mean'
+                'slowdaq_4K_blackbody_mean',
 
                 'slowdaq_50K_Bottom_mean', 'slowdaq_50K_Head_mean',
 
-                'slowdaq_SC_Fridge_Mainplate_mean', 'slowdaq_SC_Fridge_Ultrahead_mean',  'slowdaq_SQUID_card_mean', 'slowdaq_bottom_wafer_lc_board_mean']
+                'slowdaq_SC_Fridge_Mainplate_mean', 'slowdaq_SC_Fridge_Ultrahead_mean', 'slowdaq_SC_Fridge_Interhead_mean',
+
+                #OTA
+                'slowdaq_OT_4K_Head_mean', 'slowdaq_OT_4K_Heat_Link_mean',
+
+                ]
 
     for col in columns:
-        temp = data_set(stat, "scan_speed", col,
-                y_db_table=monitor,
-                ycol_err= col[:len(col)-4] + "std")
-        err_std = np.std(temp.y_data_err)                   # some bars really big, clutters plot, this removes those bars
-        print(err_std)
-        temp.discard_large_error_points(1*err_std)
-        temp.make_plot(errorbars=True, runid_partitions=partitions,
+        temp = data_set(monitor, "slowdaq_250mK_far_mean", col)
+        temp.make_plot(errorbars=False, runid_partitions=partitions,
                 legend=True)
     """
 
 
-    """ temp """
-    columns = [ 'slowdaq_250mK_far_mean', 'slowdaq_250mK_bottom_left_mean',
+    """ generates the text for tables for postretrofit compare (in POSTRETROCOMPARE/tables folder)
+    columns = [ # Backend
+                'slowdaq_250mK_far_mean', 'slowdaq_250mK_bottom_left_mean',
 
                 'slowdaq_350mK_stripline_heatsink_mean', 'slowdaq_350mK_ring_mean',
 
@@ -94,19 +90,26 @@ def __main__():
 
                 'slowdaq_2K_ring_mean',
 
-                'slowdaq_4K_blackbody_mean', 'slowdaq_Backend_4K_Head_mean', 'slowdaq_Backend_4K_Heat_Link_mean', 'slowdaq_4K_ring_mean',
+                'slowdaq_4K_blackbody_mean', 'slowdaq_4K_ring_mean',
 
                 'slowdaq_50K_Bottom_mean', 'slowdaq_50K_Head_mean',
 
-                'slowdaq_SC_Fridge_Mainplate_mean', 'slowdaq_SC_Fridge_Ultrahead_mean',  'slowdaq_SQUID_card_mean', 'slowdaq_bottom_wafer_lc_board_mean']
+                'slowdaq_SC_Fridge_Mainplate_mean', 'slowdaq_SC_Fridge_Ultrahead_mean', 'slowdaq_SC_Fridge_Interhead_mean',
+
+                #OTA
+                'slowdaq_OT_4K_Head_mean', 'slowdaq_OT_4K_Heat_Link_mean',
+
+                #Mirrors
+                 'slowdaq_Secondary_center_right_mean'
+
+                ]
 
     for col in columns:
-        temp = data_set(stat, "scan_speed", col,
-                y_db_table=monitor,
-                ycol_err= col[:len(col)-4] + "std")
-        err_std = np.std(temp.y_data_err)                   # some bars really big, clutters plot, this removes those bars
-        temp.discard_large_error_points(1*err_std)
+        temp = data_set(stat, "run_id", col,
+                y_db_table=monitor)
         temp.print_y_stats(partitions=partitions)
+    """
+
 
 
     """ gen plots for postretrofit (in POSTRETROFIT folder)
@@ -141,24 +144,20 @@ def __main__():
     """
 
     """ test if monitor contains data
-    fp = monitor_after_retrofit.get_column_index('slowdaq_lyot_stop_blackbody_mean')
-    for row in monitor_after_retrofit.gen_table():
+    fp = monitor.get_column_index('slowdaq_lyot_stop_blackbody_mean')
+    for row in monitor.gen_table():
         print(row[fp])
     """
 
 
-    """ inspect files
-    path = "../databases/"
+    """ inspect files """
 
-    print_all_tables_in_folder(path)
-
-    monitor = database_file(path+"pb2a_monitor.db")
     runids = []
-    for line in monitor.database_tables[0].gen_table():
+    for line in monitor.gen_table():
         runids.append(line[0])
+    print(runids)
     print("max runid: " + str(max(runids)))
     print("runids: " + str(len(runids)))
-    """
 
 
 __main__()

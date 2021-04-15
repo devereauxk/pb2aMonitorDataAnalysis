@@ -8,9 +8,6 @@ I've been reasoning that the components which experience similar heating as the 
 From here, I plan to consider all the post retrofit data in the dbs and incorporate the actual focal plane data. I'm also working on some other slides showing general differences between pre and post-retrofit component temperatures. I should be done with those soon.
 "
 
-quick summary of changes in componenet temperatures
-
-
 
 continue: do the above but for MOST RECENT data (the above is just with John's initial vibration tests, remember)
 revist all observations from first two studies, see if new data provides insight
