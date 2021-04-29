@@ -45,12 +45,14 @@ def make_new_db_file_set_runids(db_in, runids):
 """ IF YOU WISH TO PLOT SOMETHING WRT TIME, JUST USE X_DATA_TABLE = PB2A_RUNID.DB """
 
 
-def __main__():
+def main():
 
-    path = "../databases/"
+    path = "../databases/current/"
     run_id = database_table(path+"pb2a_runid.db", "pb2a_runid")
-    monitor = database_table(path+"pb2a_monitor_ktc.db", "pb2a_monitor")
+    monitor = database_table(path+"pb2a_monitor.db-20210415", "pb2a_monitor")
     stat = database_table(path+"data_quality_output_pb2a_v3.db", "pb2a_scan_stat")
+    dq_file = database_file(path+"data_quality_output_pb2a_v3.db")
+    timestream = database_table(path+"data_quality_output_pb2a_v3.db", "pb2a_timestream")
     linear = lambda x, m, b: m * x + b
     zero_to_one = Time(datetime(2019, 3, 8, 15, 25, 7, 706722)).mjd
     one_to_twelve = Time(datetime(2020, 1, 30, 16, 21, 40, 910587)).mjd
@@ -151,13 +153,15 @@ def __main__():
 
 
     """ inspect files """
+    monitor.print_runids()
 
-    runids = []
-    for line in monitor.gen_table():
-        runids.append(line[0])
-    print(runids)
-    print("max runid: " + str(max(runids)))
-    print("runids: " + str(len(runids)))
+    print("data_quality")
+    dq_file.print_table_names()
+    dq_file.print_table_infos()
+
+    timestream.print_runids()
 
 
-__main__()
+
+if __name__ == "__main__":
+    main()

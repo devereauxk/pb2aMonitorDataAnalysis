@@ -75,3 +75,12 @@ class database_table():
 
     def print(self):
         print("database table info: | dir: " + self.dir + " | name: " + self.name + " | file_name: " + self.file_name)
+
+    def print_runids(self):
+        print(self.name + " runid info ---")
+        runids = []
+        for line in self.gen_table():
+            runids.append(line[0])
+        print(runids)
+        print("max runid: " + str(max(runids)))
+        print("number of runids: " + str(len(runids)))
