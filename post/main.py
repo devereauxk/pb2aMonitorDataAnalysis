@@ -53,25 +53,33 @@ def main():
     stat = database_table(path+"pb2a_data_quality.db", "pb2a_scan_stat")
     dq_file = database_file(path+"pb2a_data_quality.db")
     timestream = database_table(path+"pb2a_data_quality.db", "pb2a_timestream")
-    linear = lambda x, m, b: m * x + b
-    zero_to_one = Time(datetime(2019, 3, 8, 15, 25, 7, 706722)).mjd
-    one_to_twelve = Time(datetime(2020, 1, 30, 16, 21, 40, 910587)).mjd
-    partitions = [20000000, 20100000, 21200000, 22300000, 30000000]
 
 
+    end_dt = dt.datetime(2021, 5, 2)
+    end_mjd = Time(end_dt).mjd
+    start_mjd = Time(end_dt - dt.timedelta(days=90)).mjd
 
-    """
-    start_mjd = Time(dt.datetime.now() - dt.timedelta(days=7)).mjd
+    # disclusive on start inclusing on end
 
     runids = []
     runid_col = run_id.get_column_index("run_id")
-    mjd_col = run_id.get_column_index("start_mjd")
+    mjd_col = run_id.get_column_index("first_mjd")
     for row in run_id.gen_table():
-        if row[mjd_col] > start_mjd:
-            runids.append(run_id)
+        if row[mjd_col] > start_mjd and row[mjd_col] <= end_mjd and row[runid_col] not in runids:
+            runids.append(row[runid_col])
+
+    trimmed_monitor = make_new_db_file_set_runids(monitor, runids)
 
 
-    time_stream_cols = [
+    # sparsity of monitor data
+    data_ids = []
+    for row in monitor.gen_table():
+        if row[0] > runids[0] and row[0] < runids[len(runids) - 1]:
+            data_ids.append(row[0])
+
+    print(data_ids)
+
+    time_trend_cols = [
 
     # sub-K
     'slowdaq_250mK_far_mean', 'slowdaq_250mK_bottom_left_mean',
@@ -108,10 +116,12 @@ def main():
 
     ]
 
-    for col in time_stream_cols:
-        temp_set = data_set(monitor, )
-    """
+    for col in time_trend_cols:
+        temp = data_set(run_id, 'first_mjd', col, y_db_table=trimmed_monitor, ycol_err=col[:len(col)-4] + "std")
+        temp.make_plot(errorbars=True, runid_partitions=runids, legend=False)
 
+
+    temperature_cols = []
 
 
 
@@ -154,11 +164,11 @@ def main():
 
 
     """ inspect files """
-    monitor.print_table_info()
+    #monitor.print_table_info()
 
-    print("data_quality")
-    dq_file.print_table_names()
-    dq_file.print_table_infos()
+    #print("data_quality")
+    #dq_file.print_table_names()
+    #dq_file.print_table_infos()
 
 
 
