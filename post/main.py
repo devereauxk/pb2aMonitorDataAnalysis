@@ -49,10 +49,10 @@ def main():
 
     path = "../databases/current/"
     run_id = database_table(path+"pb2a_runid.db", "pb2a_runid")
-    monitor = database_table(path+"pb2a_monitor.db-20210415", "pb2a_monitor")
-    stat = database_table(path+"data_quality_output_pb2a_v3.db", "pb2a_scan_stat")
-    dq_file = database_file(path+"data_quality_output_pb2a_v3.db")
-    timestream = database_table(path+"data_quality_output_pb2a_v3.db", "pb2a_timestream")
+    monitor = database_table(path+"pb2a_monitor.db", "pb2a_monitor")
+    stat = database_table(path+"pb2a_data_quality.db", "pb2a_scan_stat")
+    dq_file = database_file(path+"pb2a_data_quality.db")
+    timestream = database_table(path+"pb2a_data_quality.db", "pb2a_timestream")
     linear = lambda x, m, b: m * x + b
     zero_to_one = Time(datetime(2019, 3, 8, 15, 25, 7, 706722)).mjd
     one_to_twelve = Time(datetime(2020, 1, 30, 16, 21, 40, 910587)).mjd
@@ -60,57 +60,58 @@ def main():
 
 
 
-    """ gen plots for postretrofit including preretrofit data (in POSTRETROCOMPARE folder)
-    columns = [ # Backend
-                'slowdaq_250mK_far_mean',
+    """
+    start_mjd = Time(dt.datetime.now() - dt.timedelta(days=7)).mjd
 
-                'slowdaq_4K_blackbody_mean',
+    runids = []
+    runid_col = run_id.get_column_index("run_id")
+    mjd_col = run_id.get_column_index("start_mjd")
+    for row in run_id.gen_table():
+        if row[mjd_col] > start_mjd:
+            runids.append(run_id)
 
-                'slowdaq_50K_Bottom_mean', 'slowdaq_50K_Head_mean',
 
-                'slowdaq_SC_Fridge_Mainplate_mean', 'slowdaq_SC_Fridge_Ultrahead_mean', 'slowdaq_SC_Fridge_Interhead_mean',
+    time_stream_cols = [
 
-                #OTA
-                'slowdaq_OT_4K_Head_mean', 'slowdaq_OT_4K_Heat_Link_mean',
+    # sub-K
+    'slowdaq_250mK_far_mean', 'slowdaq_250mK_bottom_left_mean',
 
-                ]
+    'slowdaq_350mK_stripline_heatsink_mean', 'slowdaq_350mK_ring_mean',
 
-    for col in columns:
-        temp = data_set(monitor, "slowdaq_250mK_far_mean", col)
-        temp.make_plot(errorbars=False, runid_partitions=partitions,
-                legend=True)
+    'slowdaq_bottom_wafer_lc_board_mean',
+
+    'slowdaq_focal_plane_3_mean',
+
+    # Backend 4K
+    'slowdaq_1K_stripline_heatsink_mean',
+
+    'slowdaq_2K_ring_mean',
+
+    'slowdaq_4K_blackbody_mean', 'slowdaq_4K_ring_mean',
+
+    'slowdaq_Backend_4K_Head_mean', 'slowdaq_Backend_4K_Heat_Link_mean',
+
+    # He compressor pressure
+
+
+    # OTA 4K
+    'slowdaq_OT_4K_Head_mean', 'slowdaq_OT_4K_Heat_Link_mean',
+
+    # Fridge
+     'slowdaq_SC_Fridge_Mainplate_mean', 'slowdaq_SC_Fridge_Ultrahead_mean', 'slowdaq_SC_Fridge_Interhead_mean',
+
+    # 50K
+    'slowdaq_50K_Bottom_mean', 'slowdaq_50K_Head_mean',
+
+    # ambient temperature
+
+
+    ]
+
+    for col in time_stream_cols:
+        temp_set = data_set(monitor, )
     """
 
-
-    """ generates the text for tables for postretrofit compare (in POSTRETROCOMPARE/tables folder)
-    columns = [ # Backend
-                'slowdaq_250mK_far_mean', 'slowdaq_250mK_bottom_left_mean',
-
-                'slowdaq_350mK_stripline_heatsink_mean', 'slowdaq_350mK_ring_mean',
-
-                'slowdaq_1K_stripline_heatsink_mean',
-
-                'slowdaq_2K_ring_mean',
-
-                'slowdaq_4K_blackbody_mean', 'slowdaq_4K_ring_mean',
-
-                'slowdaq_50K_Bottom_mean', 'slowdaq_50K_Head_mean',
-
-                'slowdaq_SC_Fridge_Mainplate_mean', 'slowdaq_SC_Fridge_Ultrahead_mean', 'slowdaq_SC_Fridge_Interhead_mean',
-
-                #OTA
-                'slowdaq_OT_4K_Head_mean', 'slowdaq_OT_4K_Heat_Link_mean',
-
-                #Mirrors
-                 'slowdaq_Secondary_center_right_mean'
-
-                ]
-
-    for col in columns:
-        temp = data_set(stat, "run_id", col,
-                y_db_table=monitor)
-        temp.print_y_stats(partitions=partitions)
-    """
 
 
 
@@ -153,13 +154,11 @@ def main():
 
 
     """ inspect files """
-    monitor.print_runids()
+    monitor.print_table_info()
 
     print("data_quality")
     dq_file.print_table_names()
     dq_file.print_table_infos()
-
-    timestream.print_runids()
 
 
 

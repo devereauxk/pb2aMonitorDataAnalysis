@@ -1,0 +1,25 @@
+sensors with errors:
+
+
+     
+                'slowdaq_Backend_4K_Head_std', 
+
+'slowdaq_Backend_4K_Heat_Link_std', 
+
+                 'slowdaq_50K_Head_std',
+	
+'slowdaq_SQUID_card_std',
+
+                #OTA
+                
+
+                'slowdaq_OT_4K_Head_std', 'slowdaq_OT_4K_Heat_Link_std',
+
+                'slowdaq_aperture_lens_std', 'slowdaq_collimator_lens_std', 'slowdaq_field_lens_std', 'slowdaq_lyot_stop_blackbody_std',
+
+                'slowdaq_50K_filter_L_std', 'slowdaq_50K_filter_R_std',
+
+                #Mirrors
+                'slowdaq_Primary_center_right_std', 
+
+                ]
