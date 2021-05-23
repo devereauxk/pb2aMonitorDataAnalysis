@@ -114,27 +114,29 @@ class data_set():
                 if temp is not None:
                     temp.append([runid_partitions[i], runid_partitions[i+1]])
                     partitions.append(temp)
+
         try:
+            if x_time_formated:
+                temp_x_data = x
             if fit:
                 f, f_param, f_err = self.fit(fit)
                 print("Fitted values parameters are:")
                 for i in range(len(f_param)):
                     print("\t"+"%.2f" % f_param[i]+" +/- "+"%.2f" %f_err[i][i])
                 print("with reduced chi-squared of:\n\t", self.get_reduced_chi_sq(f))
-            if x_time_formated:
-                temp_x_data = x
-                for i in range(self.size()):
-                    x[i] = Time(x[i], format='mjd').datetime
-            plt.xlim(min(x), max(x))
-            plt.ylim(min(y), max(y))
             if runid_partitions:
                 for part in partitions:
                     if part[4][0] == part[4][1] - 1:
-                        label = label = "Run_id "+str(part[4][0])
+                        label = "Run_id "+str(part[4][0])
                     else:
                         label = "Run_id "+str(part[4][0])+" to "+str(part[4][1])
+                    if x_time_formated:
+                        part[0] = Time(part[0], format='mjd').datetime
                     plt.scatter(part[0], part[1], s=12, label=label)
             else:
+                if x_time_formated:
+                    for i in range(self.size()):
+                        x[i] = Time(x[i], format='mjd').datetime
                 plt.scatter(x, y, s=12)
             if errorbars:
                 if runid_partitions:
@@ -162,10 +164,8 @@ class data_set():
             else:
                 plt.show()
 
-        except ValueError:
-            print("no overlapping data for", self.x_col, "and", self.y_col)
-        #except Exception:
-        #    print("plotting error for", self.x_col, "and", self.y_col)
+        except Exception as e:
+            print("charting " + self.x_col + " and " + self.y_col + " threw error: " + str(e))
 
     def make_residual(self):
         x_space, y_space, m, b = self.linear_fit()

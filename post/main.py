@@ -57,7 +57,7 @@ def main():
 
     end_dt = dt.datetime(2021, 5, 2)
     end_mjd = Time(end_dt).mjd
-    start_mjd = Time(end_dt - dt.timedelta(days=90)).mjd
+    start_mjd = Time(end_dt - dt.timedelta(days=7)).mjd
 
     # disclusive on start inclusing on end
 
@@ -71,13 +71,14 @@ def main():
     trimmed_monitor = make_new_db_file_set_runids(monitor, runids)
 
 
-    # sparsity of monitor data
+    """ checking sparsity of monitor data
     data_ids = []
     for row in monitor.gen_table():
         if row[0] > runids[0] and row[0] < runids[len(runids) - 1]:
             data_ids.append(row[0])
 
-    print(data_ids)
+    # print(data_ids)
+    """
 
     time_trend_cols = [
 
@@ -118,10 +119,14 @@ def main():
 
     for col in time_trend_cols:
         temp = data_set(run_id, 'first_mjd', col, y_db_table=trimmed_monitor, ycol_err=col[:len(col)-4] + "std")
-        temp.make_plot(errorbars=True, runid_partitions=runids, legend=False)
+        temp.make_plot(errorbars=True, runid_partitions=runids, legend=False, x_time_formated=True)
 
 
     temperature_cols = []
+
+    az_speed_cols = []
+
+    # ect.
 
 
 
