@@ -54,10 +54,9 @@ def main():
     dq_file = database_file(path+"pb2a_data_quality.db")
     timestream = database_table(path+"pb2a_data_quality.db", "pb2a_timestream")
 
-
     end_dt = dt.datetime(2021, 5, 2)
     end_mjd = Time(end_dt).mjd
-    start_mjd = Time(end_dt - dt.timedelta(days=7)).mjd
+    start_mjd = Time(end_dt - dt.timedelta(days=30)).mjd
 
     # disclusive on start inclusing on end
 
@@ -83,50 +82,57 @@ def main():
     time_trend_cols = [
 
     # sub-K
-    'slowdaq_250mK_far_mean', 'slowdaq_250mK_bottom_left_mean',
+    ['slowdaq_250mK_far_mean', 0.8], ['slowdaq_250mK_bottom_left_mean', 0.8],
 
-    'slowdaq_350mK_stripline_heatsink_mean', 'slowdaq_350mK_ring_mean',
+    ['slowdaq_350mK_stripline_heatsink_mean', 1], ['slowdaq_350mK_ring_mean', 1],
 
     'slowdaq_bottom_wafer_lc_board_mean',
 
     'slowdaq_focal_plane_3_mean',
 
     # Backend 4K
-    'slowdaq_1K_stripline_heatsink_mean',
+    ['slowdaq_1K_stripline_heatsink_mean', 2.5],
 
-    'slowdaq_2K_ring_mean',
+    ['slowdaq_2K_ring_mean', 2.5],
 
     'slowdaq_4K_blackbody_mean', 'slowdaq_4K_ring_mean',
 
     'slowdaq_Backend_4K_Head_mean', 'slowdaq_Backend_4K_Heat_Link_mean',
 
-    # He compressor pressure
+    # PTC (compressor)
+    'slowdaq_PTC_BE_helium_temp_mean', 'slowdaq_PTC_BE_oil_temp_mean', 'slowdaq_PTC_BE_pressure_high_mean',
+    'slowdaq_PTC_BE_pressure_low_mean', 'slowdaq_PTC_BE_water_in_temp_mean', 'slowdaq_PTC_BE_water_out_temp_mean',
 
+    'slowdaq_PTC_OT_helium_temp_mean', 'slowdaq_PTC_OT_oil_temp_mean', 'slowdaq_PTC_OT_pressure_high_mean',
+    'slowdaq_PTC_OT_pressure_low_mean', 'slowdaq_PTC_OT_water_in_temp_mean', 'slowdaq_PTC_OT_water_out_temp_mean',
 
     # OTA 4K
     'slowdaq_OT_4K_Head_mean', 'slowdaq_OT_4K_Heat_Link_mean',
 
     # Fridge
-     'slowdaq_SC_Fridge_Mainplate_mean', 'slowdaq_SC_Fridge_Ultrahead_mean', 'slowdaq_SC_Fridge_Interhead_mean',
+    'slowdaq_SC_Fridge_Mainplate_mean', 'slowdaq_SC_Fridge_Ultrahead_mean', ['slowdaq_SC_Fridge_Interhead_mean', 2],
 
     # 50K
     'slowdaq_50K_Bottom_mean', 'slowdaq_50K_Head_mean',
 
-    # ambient temperature
-
+    # ambient weather
+    'slowdaq_Outside_Temperature_mean', 'slowdaq_Outside_Pressure_mean', 'slowdaq_Outside_Humidity_mean', 'slowdaq_Inside_Humidity_mean'
 
     ]
 
-    for col in time_trend_cols:
+    plot_dir = './figures/main/'
+
+    for col_pair in time_trend_cols:
+        if isinstance(col_pair, list):
+            col = col_pair[0]
+            y_lim = col_pair[1]
+        else:
+            col = col_pair
+            y_lim = None
+        print(col)
         temp = data_set(run_id, 'first_mjd', col, y_db_table=trimmed_monitor, ycol_err=col[:len(col)-4] + "std")
-        temp.make_plot(errorbars=True, runid_partitions=runids, legend=False, x_time_formated=True)
-
-
-    temperature_cols = []
-
-    az_speed_cols = []
-
-    # ect.
+        temp.discard_large_values(y_lim)
+        temp.make_plot(errorbars=True, runid_partitions=runids, legend=False, x_time_formated=True, save_dir=plot_dir)
 
 
 

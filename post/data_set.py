@@ -101,8 +101,9 @@ class data_set():
 
     # fit is un-fitted lambda function with idependent variable as the first arguement
     # runid_partitions is an array of at least length two which specify the limits of each runid partition as a runid
+    # broken_time_axis is array of runids for which to break the x axs at. only if x axis is time formatted (i.e. x_time_formated=True)
     # save_dir saves plot to dir (without filename), doesn't show plot
-    def make_plot(self, fit=None, errorbars=False, x_time_formated=False, runid_partitions=None, legend=True, save_dir=None):
+    def make_plot(self, fit=None, errorbars=False, x_time_formated=False, runid_partitions=None, broken_time_axis=False, legend=True, save_dir=None):
         x = self.x_data
         y = self.y_data
         x_err = self.x_data_err
@@ -114,6 +115,9 @@ class data_set():
                 if temp is not None:
                     temp.append([runid_partitions[i], runid_partitions[i+1]])
                     partitions.append(temp)
+        elif runid_broken_axis:
+            # TODO
+            pass
 
         try:
             if x_time_formated:
@@ -159,7 +163,7 @@ class data_set():
             plt.xlabel(self.x_col)
             plt.ylabel(self.y_col)
             if save_dir:
-                plt.savefig(save_dir + x_column + y_column)
+                plt.savefig(save_dir + self.x_col + "-" + self.y_col)
                 plt.close()
             else:
                 plt.show()
@@ -279,6 +283,30 @@ class data_set():
         n_r = []
         for i in range(len(self.x_data)):
             if (self.x_data_err is not None and self.x_data_err[i] <= error) or (self.y_data_err is not None and self.y_data_err[i] <= error):
+                n_x_d.append(self.x_data[i])
+                n_y_d.append(self.y_data[i])
+                if self.x_data_err is not None:
+                    n_x_d_e.append(self.x_data_err[i])
+                if self.y_data_err is not None:
+                    n_y_d_e.append(self.y_data_err[i])
+                n_r.append(self.runid[i])
+        self.x_data = n_x_d
+        self.y_data = n_y_d
+        self.x_data_err = n_x_d_e
+        self.y_data_err = n_y_d_e
+        self.runid = n_r
+
+    # discards all points with values over y
+    def discard_large_values(self, y):
+        if y is None:
+            return
+        n_x_d = []
+        n_y_d = []
+        n_x_d_e = []
+        n_y_d_e = []
+        n_r = []
+        for i in range(len(self.x_data)):
+            if self.y_data[i] <= y:
                 n_x_d.append(self.x_data[i])
                 n_y_d.append(self.y_data[i])
                 if self.x_data_err is not None:

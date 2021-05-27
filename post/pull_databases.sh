@@ -10,7 +10,7 @@ RUNID_DIR=/data/pb2/ChileData/databases/
 APEX_DIR=$MONITOR_DIR
 
 # file names of desired files in tostada
-MONITOR=pb2a_monitor.db-20210415
+MONITOR=pb2a_monitor.db-20210415-test     # usually without the -test
 DATA_QUALITY=data_quality_output_pb2a_v3.db
 RUNID=pb2a_runid.db
 APEX=pb2a_apex.db-20210322
