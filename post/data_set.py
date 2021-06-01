@@ -103,7 +103,7 @@ class data_set():
     # runid_partitions is an array of at least length two which specify the limits of each runid partition as a runid
     # broken_time_axis is array of runids for which to break the x axs at. only if x axis is time formatted (i.e. x_time_formated=True)
     # save_dir saves plot to dir (without filename), doesn't show plot
-    def make_plot(self, fit=None, errorbars=False, x_time_formated=False, runid_partitions=None, broken_time_axis=False, legend=True, save_dir=None):
+    def make_plot(self, fit=None, errorbars=False, x_time_formated=False, runid_partitions=None, broken_time_axis=False, legend=True, save_dir=None, rename_x=None):
         x = self.x_data
         y = self.y_data
         x_err = self.x_data_err
@@ -160,7 +160,10 @@ class data_set():
                 #plt.subplots_adjust(right=0.7)
                 plt.legend(loc='best', fontsize=8)
             plt.title(self.y_col + " vs " + self.x_col)
-            plt.xlabel(self.x_col)
+            if rename_x is not None:
+                plt.xlabel(rename_x)
+            else:
+                plt.xlabel(self.x_col)
             plt.ylabel(self.y_col)
             if save_dir:
                 plt.savefig(save_dir + self.x_col + "-" + self.y_col)
@@ -276,6 +279,8 @@ class data_set():
         return [new_x, new_y, new_x_err, new_y_err]
 
     def discard_large_error_points(self, error):
+        if error is None:
+            return
         n_x_d = []
         n_y_d = []
         n_x_d_e = []
@@ -292,13 +297,15 @@ class data_set():
                 n_r.append(self.runid[i])
         self.x_data = n_x_d
         self.y_data = n_y_d
-        self.x_data_err = n_x_d_e
-        self.y_data_err = n_y_d_e
+        if self.x_data_err is not None:
+            self.x_data_err = n_x_d_e
+        if self.y_data_err is not None:
+            self.y_data_err = n_y_d_e
         self.runid = n_r
 
-    # discards all points with values over y
-    def discard_large_values(self, y):
-        if y is None:
+    # discards all points with values over upper and all points lower than lower
+    def discard_values(self, upper=None, lower=None):
+        if upper is None and lower is None:
             return
         n_x_d = []
         n_y_d = []
@@ -306,18 +313,41 @@ class data_set():
         n_y_d_e = []
         n_r = []
         for i in range(len(self.x_data)):
-            if self.y_data[i] <= y:
+            y = self.y_data[i]
+
+            if upper is not None and lower is not None and y <= upper and y >= lower:
                 n_x_d.append(self.x_data[i])
-                n_y_d.append(self.y_data[i])
+                n_y_d.append(y)
                 if self.x_data_err is not None:
                     n_x_d_e.append(self.x_data_err[i])
                 if self.y_data_err is not None:
                     n_y_d_e.append(self.y_data_err[i])
                 n_r.append(self.runid[i])
+
+            elif upper is not None and lower is None and y <= upper:
+                n_x_d.append(self.x_data[i])
+                n_y_d.append(y)
+                if self.x_data_err is not None:
+                    n_x_d_e.append(self.x_data_err[i])
+                if self.y_data_err is not None:
+                    n_y_d_e.append(self.y_data_err[i])
+                n_r.append(self.runid[i])
+
+            elif lower is not None and upper is None and y >= lower:
+                n_x_d.append(self.x_data[i])
+                n_y_d.append(y)
+                if self.x_data_err is not None:
+                    n_x_d_e.append(self.x_data_err[i])
+                if self.y_data_err is not None:
+                    n_y_d_e.append(self.y_data_err[i])
+                n_r.append(self.runid[i])
+
         self.x_data = n_x_d
         self.y_data = n_y_d
-        self.x_data_err = n_x_d_e
-        self.y_data_err = n_y_d_e
+        if self.x_data_err is not None:
+            self.x_data_err = n_x_d_e
+        if self.y_data_err is not None:
+            self.y_data_err = n_y_d_e
         self.runid = n_r
 
     def print_y_stats(self, partitions=False):

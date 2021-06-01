@@ -12,6 +12,7 @@ from inspect import signature
 from shutil import copyfile
 
 import sqlite3
+import os
 from os import listdir
 from os.path import isfile, join
 
@@ -56,7 +57,12 @@ class database_table():
             yield row[1]
 
     def copy(self):
+        # overides any file with directory/name new_dir
         new_dir = self.dir[:len(self.dir) - 3] + "_temp.db"
+        try:
+            os.remove(new_dir)
+        except:
+            pass
         copyfile(self.dir, new_dir)
         new_object = database_table(new_dir, self.name)
         return new_object
