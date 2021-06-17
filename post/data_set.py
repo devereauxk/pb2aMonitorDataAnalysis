@@ -115,7 +115,7 @@ class data_set():
                 if temp is not None:
                     temp.append([runid_partitions[i], runid_partitions[i+1]])
                     partitions.append(temp)
-        elif runid_broken_axis:
+        elif broken_time_axis:
             # TODO
             pass
 

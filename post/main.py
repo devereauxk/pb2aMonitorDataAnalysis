@@ -89,8 +89,6 @@ def main():
 
     ['slowdaq_350mK_stripline_heatsink_mean', None, 0.42, 0.01], ['slowdaq_350mK_ring_mean', None, 0.45, None],
 
-    ['slowdaq_bottom_wafer_lc_board_mean', None, None, 1],
-
     #'slowdaq_focal_plane_3_mean',
 
     # Backend 4K
@@ -106,24 +104,24 @@ def main():
     ['slowdaq_PTC_BE_helium_temp_mean', 45, None, 5], 'slowdaq_PTC_BE_oil_temp_mean', ['slowdaq_PTC_BE_pressure_high_mean', 220, None, 10],
     ['slowdaq_PTC_BE_pressure_low_mean', None, 90, None], 'slowdaq_PTC_BE_water_in_temp_mean', ['slowdaq_PTC_BE_water_out_temp_mean', 17, None, None],
 
-    'slowdaq_PTC_OT_helium_temp_mean', 'slowdaq_PTC_OT_oil_temp_mean', 'slowdaq_PTC_OT_pressure_high_mean',
-    'slowdaq_PTC_OT_pressure_low_mean', 'slowdaq_PTC_OT_water_in_temp_mean', 'slowdaq_PTC_OT_water_out_temp_mean',
+    #'slowdaq_PTC_OT_helium_temp_mean', 'slowdaq_PTC_OT_oil_temp_mean', 'slowdaq_PTC_OT_pressure_high_mean',
+    #'slowdaq_PTC_OT_pressure_low_mean', 'slowdaq_PTC_OT_water_in_temp_mean', 'slowdaq_PTC_OT_water_out_temp_mean',
 
     # OTA 4K
     'slowdaq_OT_4K_Head_mean', 'slowdaq_OT_4K_Heat_Link_mean',
 
     # Fridge
-    ['slowdaq_SC_Fridge_Mainplate_mean', None, 4.5, None], 'slowdaq_SC_Fridge_Ultrahead_mean', ['slowdaq_SC_Fridge_Interhead_mean', None, 2, None],
+    ['slowdaq_SC_Fridge_Mainplate_mean', None, 4.5, None], ['slowdaq_SC_Fridge_Ultrahead_mean', 0, 0.5, 0.02], ['slowdaq_SC_Fridge_Interhead_mean', None, 1.6, 0.005],
 
     # 50K
-    ['slowdaq_50K_Bottom_mean', None, 83, None], 'slowdaq_50K_Head_mean',
+    #['slowdaq_50K_Bottom_mean', None, 83, None], 'slowdaq_50K_Head_mean',
 
     # ambient weather
     ['slowdaq_Outside_Temperature_mean', None, 300, None], ['slowdaq_Outside_Pressure_mean', 100, None, None], ['slowdaq_Outside_Humidity_mean', None, 200, None], ['slowdaq_Inside_Humidity_mean', None, 200, None]
 
     ]
 
-    # week
+    # since retrofit
     plot_dir = './figures/main/sinceRetrofit/'
 
     end_dt = dt.datetime.now()
@@ -146,7 +144,65 @@ def main():
         temp = data_set(run_id, 'first_mjd', col, y_db_table=trimmed_monitor, ycol_err=col[:len(col)-4] + "std")
         temp.discard_values(upper=upper, lower=lower)
         temp.discard_large_error_points(error)
-        temp.make_plot(rename_x='date', errorbars=True, runid_partitions=runids, legend=False, x_time_formated=True, save_dir=plot_dir)
+        temp.make_plot(rename_x='date', errorbars=True, legend=False, x_time_formated=True, save_dir=plot_dir)
+
+    trimmed_monitor.close()
+
+    os.remove(path+"pb2a_monitor_temp.db")
+
+    # month
+    plot_dir = './figures/main/month/'
+
+    end_dt = dt.datetime.now()
+    start_dt = end_dt - dt.timedelta(days=31)
+    runids = get_runids_between_dates(run_id, start_dt, end_dt)
+    trimmed_monitor = make_new_db_file_set_runids(monitor, runids)
+
+    for col_pair in time_trend_cols:
+        if isinstance(col_pair, list):
+            col = col_pair[0]
+            lower = col_pair[1]
+            upper = col_pair[2]
+            error = col_pair[3]
+        else:
+            col = col_pair
+            lower = None
+            upper = None
+            error = None
+        print(col)
+        temp = data_set(run_id, 'first_mjd', col, y_db_table=trimmed_monitor, ycol_err=col[:len(col)-4] + "std")
+        temp.discard_values(upper=upper, lower=lower)
+        temp.discard_large_error_points(error)
+        temp.make_plot(rename_x='date', errorbars=True, legend=False, x_time_formated=True, save_dir=plot_dir)
+
+    trimmed_monitor.close()
+
+    os.remove(path+"pb2a_monitor_temp.db")
+
+    # week
+    plot_dir = './figures/main/week/'
+
+    end_dt = dt.datetime.now()
+    start_dt = end_dt - dt.timedelta(days=7)
+    runids = get_runids_between_dates(run_id, start_dt, end_dt)
+    trimmed_monitor = make_new_db_file_set_runids(monitor, runids)
+
+    for col_pair in time_trend_cols:
+        if isinstance(col_pair, list):
+            col = col_pair[0]
+            lower = col_pair[1]
+            upper = col_pair[2]
+            error = col_pair[3]
+        else:
+            col = col_pair
+            lower = None
+            upper = None
+            error = None
+        print(col)
+        temp = data_set(run_id, 'first_mjd', col, y_db_table=trimmed_monitor, ycol_err=col[:len(col)-4] + "std")
+        temp.discard_values(upper=upper, lower=lower)
+        temp.discard_large_error_points(error)
+        temp.make_plot(rename_x='date', errorbars=True, legend=False, x_time_formated=True, save_dir=plot_dir)
 
     trimmed_monitor.close()
 
