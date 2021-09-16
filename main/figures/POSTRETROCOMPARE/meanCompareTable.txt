@@ -1,0 +1,222 @@
+
+slowdaq_250mK_far_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		8.047	0.323	15.633	0.306	40.000
+	21200000 - 22300000
+		mean	median	std	min	max	
+		0.337	0.332	0.019	0.318	0.402
+	22300000 - 30000000
+		mean	median	std	min	max	
+		0.530	0.363	0.250	0.354	0.993
+
+slowdaq_250mK_bottom_left_mean
+	22300000 - 30000000
+		mean	median	std	min	max	
+		0.484	0.304	0.291	0.290	1.039
+
+slowdaq_350mK_stripline_heatsink_mean
+	22300000 - 30000000
+		mean	median	std	min	max	
+		0.376	0.375	0.007	0.368	0.399
+
+slowdaq_350mK_ring_mean
+	22300000 - 30000000
+		mean	median	std	min	max	
+		0.419	0.418	0.006	0.411	0.446
+
+slowdaq_1K_stripline_heatsink_mean
+	22300000 - 30000000
+		mean	median	std	min	max	
+		1.726	1.888	0.639	-0.599	2.538
+
+slowdaq_2K_ring_mean
+	22300000 - 30000000
+		mean	median	std	min	max	
+		1.644	1.643	0.014	1.623	1.667
+
+slowdaq_4K_blackbody_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		5.015	5.015	0.138	4.718	5.349
+	21200000 - 22300000
+		mean	median	std	min	max	
+		4.972	4.969	0.133	4.755	5.281
+	22300000 - 30000000
+		mean	median	std	min	max	
+		4.341	4.349	0.041	4.265	4.433
+
+slowdaq_Backend_4K_Head_mean
+	22300000 - 30000000
+		mean	median	std	min	max	
+		-1.000	-1.000	0.000	-1.000	-1.000
+
+slowdaq_Backend_4K_Heat_Link_mean
+	22300000 - 30000000
+		mean	median	std	min	max	
+		-1.000	-1.000	0.000	-1.000	-1.000
+
+slowdaq_4K_ring_mean
+	22300000 - 30000000
+		mean	median	std	min	max	
+		3.540	3.541	0.030	3.495	3.605
+
+slowdaq_50K_Bottom_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		80.262	80.243	2.801	73.922	87.096
+	21200000 - 22300000
+		mean	median	std	min	max	
+		85.929	86.094	2.938	81.282	92.547
+	22300000 - 30000000
+		mean	median	std	min	max	
+		76.591	76.658	0.778	74.703	77.773
+
+slowdaq_50K_Head_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		73.251	74.143	2.603	68.129	77.792
+	21200000 - 22300000
+		mean	median	std	min	max	
+		73.451	73.462	1.253	70.876	76.620
+
+slowdaq_SC_Fridge_Mainplate_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		3.966	3.999	0.121	3.800	4.182
+	21200000 - 22300000
+		mean	median	std	min	max	
+		3.976	3.986	0.079	3.811	4.148
+	22300000 - 30000000
+		mean	median	std	min	max	
+		3.782	3.778	0.082	3.669	4.071
+
+slowdaq_SC_Fridge_Ultrahead_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		0.347	0.296	0.167	0.283	1.808
+	21200000 - 22300000
+		mean	median	std	min	max	
+		0.350	0.296	0.162	0.290	0.850
+	22300000 - 30000000
+		mean	median	std	min	max	
+		0.457	0.333	0.255	0.312	1.057
+
+slowdaq_SC_Fridge_Interhead_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		0.481	0.375	0.385	0.365	2.315
+	21200000 - 22300000
+		mean	median	std	min	max	
+		0.375	0.374	0.002	0.369	0.379
+	22300000 - 30000000
+		mean	median	std	min	max	
+		1.140	1.131	0.069	1.118	1.621
+
+slowdaq_SQUID_card_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		6.284	6.281	0.081	6.165	6.469
+	21200000 - 22300000
+		mean	median	std	min	max	
+		271.823	310.000	101.008	3.946	310.000
+	22300000 - 30000000
+		mean	median	std	min	max	
+		505.000	505.000	0.000	505.000	505.000
+
+slowdaq_bottom_wafer_lc_board_mean
+	22300000 - 30000000
+		mean	median	std	min	max	
+		0.502	0.593	0.457	-0.616	1.263
+
+slowdaq_OT_4K_Head_mean
+
+slowdaq_OT_4K_Heat_Link_mean
+
+slowdaq_aperture_lens_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		505.000	505.000	0.000	505.000	505.000
+	21200000 - 22300000
+		mean	median	std	min	max	
+		505.000	505.000	0.000	505.000	505.000
+	22300000 - 30000000
+		mean	median	std	min	max	
+		505.000	505.000	0.000	505.000	505.000
+
+slowdaq_collimator_lens_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		6.995	6.995	0.095	6.800	7.216
+	21200000 - 22300000
+		mean	median	std	min	max	
+		5.344	5.149	0.529	5.028	6.996
+	22300000 - 30000000
+		mean	median	std	min	max	
+		271.800	271.800	0.000	271.800	271.800
+
+slowdaq_field_lens_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		5.816	5.830	0.129	5.547	6.130
+	21200000 - 22300000
+		mean	median	std	min	max	
+		180.575	5.946	238.061	5.651	505.000
+	22300000 - 30000000
+		mean	median	std	min	max	
+		505.000	505.000	0.000	505.000	505.000
+
+slowdaq_lyot_stop_blackbody_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		5.185	5.182	0.149	4.871	5.533
+	21200000 - 22300000
+		mean	median	std	min	max	
+		1.000	1.000	0.000	1.000	1.000
+	22300000 - 30000000
+		mean	median	std	min	max	
+		1.000	1.000	0.000	1.000	1.000
+
+slowdaq_50K_filter_L_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		60.395	60.344	1.885	56.945	65.839
+	21200000 - 22300000
+		mean	median	std	min	max	
+		10.228	1.000	21.838	1.000	62.267
+	22300000 - 30000000
+		mean	median	std	min	max	
+		1.000	1.000	0.000	1.000	1.000
+
+slowdaq_50K_filter_R_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		57.600	57.377	2.086	53.472	63.123
+	21200000 - 22300000
+		mean	median	std	min	max	
+		7.984	1.000	18.478	1.000	57.300
+	22300000 - 30000000
+		mean	median	std	min	max	
+		1.000	1.000	0.000	1.000	1.000
+
+slowdaq_Primary_center_right_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		270.290	269.207	7.120	260.913	297.170
+	21200000 - 22300000
+		mean	median	std	min	max	
+		-1120240097221242437841331672842240.000	279.872	5009866017015343804306447749087232.000	-23525042041646092347589469736534016.000	290.776
+	22300000 - 30000000
+		mean	median	std	min	max	
+		-23524968913655688823442675244990464.000	-23524968913655679600070638390214656.000	9223372036854775808.000	-23524968913655679600070638390214656.000	-23524968913655679600070638390214656.000
+
+slowdaq_Secondary_center_right_mean
+	20100000 - 21200000
+		mean	median	std	min	max	
+		269.419	268.709	5.102	261.879	287.261
+	21200000 - 22300000
+		mean	median	std	min	max	
+		273.386	272.754	3.247	269.192	284.523
+	22300000 - 30000000
+		mean	median	std	min	max	
+		279.236	277.927	4.839	271.966	291.760
